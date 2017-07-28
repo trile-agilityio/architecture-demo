@@ -1,4 +1,4 @@
-package com.architecture.component.repositories;
+package com.architecture.component.repository;
 
 /**
  * This is BaseClass, will remove on future.
