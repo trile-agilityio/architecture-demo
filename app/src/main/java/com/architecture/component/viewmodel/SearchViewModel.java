@@ -58,7 +58,7 @@ public class SearchViewModel extends ViewModel {
      *
      * @return
      */
-    LiveData<Resource<List<Repo>>> getResults() {
+    public LiveData<Resource<List<Repo>>> getResults() {
         return results;
     }
 
@@ -67,14 +67,14 @@ public class SearchViewModel extends ViewModel {
      *
      * @return
      */
-    LiveData<LoadMoreState> getLoadMoreState() {
+    public LiveData<LoadMoreState> getLoadMoreState() {
         return nextPageHandler.getLoadMoreState();
     }
 
     /**
      * Load next page.
      */
-    void loadNextPage() {
+    public void loadNextPage() {
         String value = query.getValue();
         if (value == null || value.trim().length() == 0) {
             return;
@@ -86,7 +86,7 @@ public class SearchViewModel extends ViewModel {
     /**
      * Refresh data.
      */
-    void refresh() {
+    public void refresh() {
         if (query.getValue() != null) {
             query.setValue(query.getValue());
         }

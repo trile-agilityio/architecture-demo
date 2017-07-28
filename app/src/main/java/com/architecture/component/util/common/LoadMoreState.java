@@ -11,18 +11,19 @@ public class LoadMoreState {
         this.errorMessage = errorMessage;
     }
 
-    boolean isRunning() {
+    public boolean isRunning() {
         return running;
     }
 
-    String getErrorMessage() {
+    public String getErrorMessage() {
         return errorMessage;
     }
 
-    String getErrorMessageIfNotHandled() {
+    public String getErrorMessageIfNotHandled() {
         if (handledError) {
             return null;
         }
+
         handledError = true;
         return errorMessage;
     }
