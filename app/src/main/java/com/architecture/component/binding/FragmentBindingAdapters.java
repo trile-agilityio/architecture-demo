@@ -22,7 +22,9 @@ public class FragmentBindingAdapters {
 
     @BindingAdapter("imageUrl")
     public void bindImage(ImageView imageView, String url) {
-        Glide.with(fragment).load(url).into(imageView);
+        Glide.with(fragment)
+                .load(url)
+                .into(imageView);
     }
 
 }

@@ -1,8 +1,23 @@
 package com.architecture.component.ui.activity.search;
 
-/**
- * Created by trile on 28/07/2017.
- */
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProvider;
+import android.databinding.DataBindingComponent;
 
-public class SearchFragment {
+import com.architecture.component.binding.FragmentDataBindingComponent;
+import com.architecture.component.ui.base.NavigationController;
+
+import javax.inject.Inject;
+
+public class SearchFragment extends LifecycleFragment {
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+
+    @Inject
+    NavigationController navigationController;
+
+    private DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
+
+
 }
