@@ -1,4 +1,4 @@
-package com.architecture.component.service.response;
+package com.architecture.component.service.base;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
