@@ -1,4 +1,4 @@
-package com.architecture.component.repository.base;
+package com.architecture.component.util.common;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;

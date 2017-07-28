@@ -9,8 +9,8 @@ import com.architecture.component.db.dao.RepoDao;
 import com.architecture.component.db.database.GithubDb;
 import com.architecture.component.db.entity.Repo;
 import com.architecture.component.db.entity.SearchResult;
-import com.architecture.component.repository.base.FetchNextSearchPageTask;
-import com.architecture.component.repository.base.NetworkBoundResource;
+import com.architecture.component.util.common.FetchNextSearchPageTask;
+import com.architecture.component.util.common.NetworkBoundResource;
 import com.architecture.component.service.api.IGithubApi;
 import com.architecture.component.service.base.ResponseApi;
 import com.architecture.component.service.response.SearchResponse;
@@ -194,7 +194,6 @@ public class RepoRepository {
             @Override
             protected LiveData<ResponseApi<SearchResponse>> createCall() {
                 Timber.d("createCall");
-
                 return githubApi.searchRepos(query);
             }
 
