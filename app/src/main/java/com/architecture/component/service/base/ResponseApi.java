@@ -88,7 +88,7 @@ public class ResponseApi<T> {
         return code >= 200 && code < 300;
     }
 
-    public Integer nextPage() {
+    public Integer getNextPage() {
         String next = links.get(NEXT_LINK);
 
         if (next == null) {
