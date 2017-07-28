@@ -22,7 +22,7 @@ public class NextPageHandler implements Observer<Resource<Boolean>> {
     private final RepoRepository repository;
 
     @VisibleForTesting
-    boolean hasMore;
+    private boolean hasMore;
 
     @VisibleForTesting
     public NextPageHandler(RepoRepository repository) {
@@ -33,7 +33,7 @@ public class NextPageHandler implements Observer<Resource<Boolean>> {
     /**
      * Query next page.
      *
-     * @param query
+     * @param query The {@link String}
      */
     public void queryNextPage(String query) {
         if (Objects.equals(this.query, query)) {
@@ -94,7 +94,7 @@ public class NextPageHandler implements Observer<Resource<Boolean>> {
     /**
      * Get load more State.
      *
-     * @return
+     * @return LoadMoreState
      */
     public MutableLiveData<LoadMoreState> getLoadMoreState() {
         return loadMoreState;
