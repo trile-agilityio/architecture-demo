@@ -3,7 +3,7 @@ package com.architecture.component.service.api;
 import android.arch.lifecycle.LiveData;
 
 import com.architecture.component.db.entity.Repo;
-import com.architecture.component.service.response.ResponseApi;
+import com.architecture.component.service.base.ResponseApi;
 import com.architecture.component.service.response.SearchResponse;
 
 import java.util.List;
