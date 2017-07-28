@@ -2,6 +2,7 @@ package com.architecture.component.db.dao;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
+import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
@@ -13,6 +14,7 @@ import com.architecture.component.db.entity.SearchResult;
 import java.util.Collections;
 import java.util.List;
 
+@Dao
 public abstract class RepoDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -35,13 +37,13 @@ public abstract class RepoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insert(SearchResult result);
 
-    @Query("SELECT * FROM RepoSearchResult WHERE query = :query")
+    @Query("SELECT * FROM SearchResult WHERE query = :query")
     public abstract LiveData<SearchResult> search(String query);
 
     @Query("SELECT * FROM Repo WHERE id in (:repoIds)")
     protected abstract LiveData<List<Repo>> loadById(List<Integer> repoIds);
 
-    @Query("SELECT * FROM RepoSearchResult WHERE query = :query")
+    @Query("SELECT * FROM SearchResult WHERE query = :query")
     public abstract SearchResult findSearchResult(String query);
 
     public LiveData<List<Repo>> loadOrdered(List<Integer> repoIds) {
