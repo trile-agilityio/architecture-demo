@@ -1,6 +1,5 @@
 package com.architecture.component.db.entity;
 
-
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
@@ -37,42 +36,5 @@ public class Repo {
         this.description = description;
         this.owner = owner;
         this.stars = stars;
-    }
-
-    public static class Owner {
-        @SerializedName("login")
-        public final String login;
-        @SerializedName("url")
-        public final String url;
-
-        public Owner(String login, String url) {
-            this.login = login;
-            this.url = url;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-
-            Owner owner = (Owner) o;
-
-            if (login != null ? !login.equals(owner.login) : owner.login != null) {
-                return false;
-            }
-            return url != null ? url.equals(owner.url) : owner.url == null;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = login != null ? login.hashCode() : 0;
-            result = 31 * result + (url != null ? url.hashCode() : 0);
-            return result;
-        }
     }
 }
