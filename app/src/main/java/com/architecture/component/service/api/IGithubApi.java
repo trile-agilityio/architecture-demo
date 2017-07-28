@@ -13,7 +13,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface IGithubService {
+public interface IGithubApi {
 
     @GET("repos/{owner}/{name}")
     LiveData<ResponseApi<Repo>> getRepo(@Path("owner") String owner, @Path("name") String name);
