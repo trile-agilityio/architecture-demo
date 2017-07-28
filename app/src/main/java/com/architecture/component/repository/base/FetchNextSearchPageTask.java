@@ -26,7 +26,7 @@ public class FetchNextSearchPageTask implements Runnable {
     private final IGithubApi githubApi;
     private final GithubDb db;
 
-    FetchNextSearchPageTask(String query, IGithubApi githubApi, GithubDb db) {
+    public FetchNextSearchPageTask(String query, IGithubApi githubApi, GithubDb db) {
         this.query = query;
         this.githubApi = githubApi;
         this.db = db;
@@ -80,7 +80,7 @@ public class FetchNextSearchPageTask implements Runnable {
         }
     }
 
-    LiveData<Resource<Boolean>> getLiveData() {
+    public LiveData<Resource<Boolean>> getLiveData() {
         return liveData;
     }
 }
