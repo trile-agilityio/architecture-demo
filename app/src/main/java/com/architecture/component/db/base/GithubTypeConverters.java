@@ -1,4 +1,4 @@
-package com.architecture.component.db;
+package com.architecture.component.db.base;
 
 import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.util.StringUtil;
@@ -6,7 +6,7 @@ import android.arch.persistence.room.util.StringUtil;
 import java.util.Collections;
 import java.util.List;
 
-public class GithubTtpeConverters {
+public class GithubTypeConverters {
 
     @TypeConverter
     public static List<Integer> stringToIntList(String data) {
