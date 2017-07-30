@@ -2,7 +2,7 @@ package com.architecture.component.di;
 
 import android.app.Application;
 
-import com.architecture.component.app.ArchitectureApp;
+import com.architecture.component.app.DemoApp;
 
 import javax.inject.Singleton;
 
@@ -27,5 +27,5 @@ public interface AppComponent {
         AppComponent build();
     }
 
-    void inject(ArchitectureApp app);
+    void inject(DemoApp app);
 }

@@ -12,7 +12,7 @@ import dagger.android.HasActivityInjector;
 import timber.log.BuildConfig;
 import timber.log.Timber;
 
-public class ArchitectureApp extends Application implements HasActivityInjector {
+public class DemoApp extends Application implements HasActivityInjector {
 
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;

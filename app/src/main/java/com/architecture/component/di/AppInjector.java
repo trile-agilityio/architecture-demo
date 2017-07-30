@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
-import com.architecture.component.app.ArchitectureApp;
+import com.architecture.component.app.DemoApp;
 
 import dagger.android.AndroidInjection;
 import dagger.android.support.AndroidSupportInjection;
@@ -21,10 +21,10 @@ public class AppInjector {
     private AppInjector() {
     }
 
-    public static void init(ArchitectureApp app) {
+    public static void init(DemoApp app) {
 
-        DaggerAppComponent.builder().application(app)
-                .build().inject(app);
+//        DaggerAppComponent.builder().application(app)
+//                .build().inject(app);
 
         app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
