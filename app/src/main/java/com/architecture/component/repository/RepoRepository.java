@@ -7,15 +7,17 @@ import android.support.annotation.Nullable;
 
 import com.architecture.component.db.dao.RepoDao;
 import com.architecture.component.db.database.GithubDb;
+import com.architecture.component.db.entity.Contributor;
+import com.architecture.component.db.entity.Owner;
 import com.architecture.component.db.entity.Repo;
 import com.architecture.component.db.entity.SearchResult;
-import com.architecture.component.util.common.FetchNextSearchPageTask;
-import com.architecture.component.util.common.NetworkBoundResource;
 import com.architecture.component.service.api.IGithubApi;
 import com.architecture.component.service.base.ResponseApi;
 import com.architecture.component.service.response.SearchResponse;
 import com.architecture.component.util.common.AbsentLiveData;
 import com.architecture.component.util.common.AppExecutors;
+import com.architecture.component.util.common.FetchNextSearchPageTask;
+import com.architecture.component.util.common.NetworkBoundResource;
 import com.architecture.component.util.common.RateLimiter;
 import com.architecture.component.util.common.Resource;
 
@@ -126,6 +128,63 @@ public class RepoRepository {
             protected LiveData<ResponseApi<Repo>> createCall() {
                 Timber.d("load Repo data from api");
                 return githubApi.getRepo(owner, name);
+            }
+        }.asLiveData();
+    }
+
+    /**
+     * Load list Contributors.
+     *
+     * @param owner
+     * @param name
+     * @return
+     */
+    public LiveData<Resource<List<Contributor>>> loadContributors(String owner, String name) {
+        return new NetworkBoundResource<List<Contributor>, List<Contributor>>(appExecutors) {
+            @Override
+            protected void saveCallResult(@NonNull List<Contributor> contributors) {
+                for (Contributor contributor : contributors) {
+                    contributor.setRepoName(name);
+                    contributor.setRepoOwner(owner);
+                }
+
+                db.beginTransaction();
+                try {
+
+                    repoDao.createRepoIfNotExists(new Repo(Repo.UNKNOWN_ID,
+                            name, owner + "/" + name, "",
+                            new Owner(owner, null), 0));
+                    repoDao.insertContributors(contributors);
+
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+
+                Timber.d("received saved contributors to db");
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<Contributor> data) {
+                Timber.d("received contributor list from db: %s", data);
+                final boolean result = data == null || data.isEmpty();
+
+                Timber.d("should fetch Repo data : " + result);
+                return result;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<Contributor>> loadFromDb() {
+                Timber.d("load contributors from local");
+                return repoDao.loadContributors(owner, name);
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ResponseApi<List<Contributor>>> createCall() {
+                Timber.d("load contributors from server");
+                return githubApi.getContributors(owner, name);
             }
         }.asLiveData();
     }

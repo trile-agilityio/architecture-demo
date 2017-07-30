@@ -20,8 +20,8 @@ public class RepoListAdapter extends DataBoundListAdapter<Repo, ItemRepoBinding>
     private final RepoClickCallback repoClickCallback;
     private final boolean isShowFullName;
 
-    public RepoListAdapter(DataBindingComponent dataBindingComponent,
-                           RepoClickCallback repoClickCallback, boolean showFullName) {
+    public RepoListAdapter(DataBindingComponent dataBindingComponent, boolean showFullName,
+                           RepoClickCallback repoClickCallback) {
         this.dataBindingComponent = dataBindingComponent;
         this.repoClickCallback = repoClickCallback;
         this.isShowFullName = showFullName;

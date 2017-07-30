@@ -6,8 +6,10 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.RoomWarnings;
 import android.util.SparseIntArray;
 
+import com.architecture.component.db.entity.Contributor;
 import com.architecture.component.db.entity.Repo;
 import com.architecture.component.db.entity.SearchResult;
 
@@ -23,6 +25,9 @@ public abstract class RepoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertRepos(List<Repo> repositories);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertContributors(List<Contributor> contributors);
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract long createRepoIfNotExists(Repo repo);
 
@@ -33,6 +38,12 @@ public abstract class RepoDao {
             + "WHERE owner_login = :owner "
             + "ORDER BY stars DESC")
     public abstract LiveData<List<Repo>> loadRepos(String owner);
+
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT login, avatarUrl, contributions FROM contributor "
+            + "WHERE repoOwner = :owner AND repoName = :name"
+            + "ORDER BY contributions DESC")
+    public abstract LiveData<List<Contributor>> loadContributors(String owner, String name);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insert(SearchResult result);

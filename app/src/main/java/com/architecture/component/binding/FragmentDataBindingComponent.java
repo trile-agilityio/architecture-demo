@@ -1,12 +1,12 @@
 package com.architecture.component.binding;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
+import android.databinding.DataBindingComponent;
 
 /**
  * A Data Binding Component implementation for fragments.
  */
-public class FragmentDataBindingComponent implements android.databinding.DataBindingComponent {
-
+public class FragmentDataBindingComponent implements DataBindingComponent {
     private final FragmentBindingAdapters adapter;
 
     public FragmentDataBindingComponent(Fragment fragment) {

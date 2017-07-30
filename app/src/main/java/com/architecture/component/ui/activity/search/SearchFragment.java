@@ -10,9 +10,11 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 
 import com.architecture.component.R;
 import com.architecture.component.binding.FragmentDataBindingComponent;
@@ -20,6 +22,7 @@ import com.architecture.component.databinding.SearchFragmentBinding;
 import com.architecture.component.ui.adapter.RepoListAdapter;
 import com.architecture.component.ui.base.NavigationController;
 import com.architecture.component.util.common.AutoClearedValue;
+import com.architecture.component.util.view.ViewUtils;
 import com.architecture.component.viewmodel.SearchViewModel;
 
 import javax.inject.Inject;
@@ -61,10 +64,56 @@ public class SearchFragment extends LifecycleFragment {
 
         dataBinding();
 
-        // adapter
-        RepoListAdapter repoListAdapter;
+        // repositories adapter
+        RepoListAdapter repoListAdapter = new RepoListAdapter(dataBindingComponent, true,
+                repo -> navigationController.navigateToRepo(repo.owner.login, repo.name));
+        binding.get().repoList.setAdapter(repoListAdapter);
+        adapter = new AutoClearedValue<>(this, repoListAdapter);
+
+        // search listener
+        searchListener();
 
         super.onActivityCreated(savedInstanceState);
+    }
+
+    /**
+     * Search listener.
+     */
+    private void searchListener() {
+        // set editor action listener
+        binding.get().edtInput.setOnEditorActionListener((v, actionId, keyEvent) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                doSearch(v);
+                return true;
+            }
+            return false;
+        });
+
+        // set on key listener
+        binding.get().edtInput.setOnKeyListener((v, actionId, keyEvent) -> {
+            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                doSearch(v);
+                return true;
+            }
+            return false;
+        });
+    }
+
+    /**
+     * Search Repositories.
+     *
+     * @param v The {@link View}
+     */
+    private void doSearch(View v) {
+        // get query search
+        String query = binding.get().edtInput.getText().toString();
+
+        // dismiss keyboard
+        ViewUtils.dismissKeyboard(getActivity(), v.getWindowToken());
+
+        // search repo
+        binding.get().setQuery(query);
+        searchViewModel.setQuery(query);
     }
 
     /**
@@ -82,7 +131,7 @@ public class SearchFragment extends LifecycleFragment {
                 if (lastPosition == adapter.get().getItemCount()) {
                     searchViewModel.loadNextPage();
                 }
-             }
+            }
         });
 
         // search result observe
