@@ -4,6 +4,8 @@ import android.support.v4.app.FragmentManager;
 
 import com.architecture.component.R;
 import com.architecture.component.ui.activity.MainActivity;
+import com.architecture.component.ui.activity.repo.RepoFragment;
+import com.architecture.component.ui.activity.search.SearchFragment;
 
 import javax.inject.Inject;
 
@@ -19,9 +21,18 @@ public class NavigationController {
     }
 
     public void navigateToSearch() {
-//        SearchFragment searchFragment = new SearchFragment();
-//        fragmentManager.beginTransaction()
-//                .replace(containerId, searchFragment)
-//                .commitAllowingStateLoss();
+        SearchFragment searchFragment = new SearchFragment();
+        fragmentManager.beginTransaction()
+                .replace(containerId, searchFragment)
+                .commitAllowingStateLoss();
+    }
+
+    public void navigateToRepo(String owner, String name) {
+        RepoFragment fragment = RepoFragment.create(owner, name);
+        String tag = "repo" + "/" + owner + "/" + name;
+        fragmentManager.beginTransaction()
+                .replace(containerId, fragment, tag)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
     }
 }
