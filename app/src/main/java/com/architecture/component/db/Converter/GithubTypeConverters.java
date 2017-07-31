@@ -1,4 +1,4 @@
-package com.architecture.component.db.base;
+package com.architecture.component.db.Converter;
 
 import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.util.StringUtil;

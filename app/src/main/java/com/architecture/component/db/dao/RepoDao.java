@@ -34,11 +34,6 @@ public abstract class RepoDao {
     @Query("SELECT * FROM repo WHERE owner_login = :login AND name = :name")
     public abstract LiveData<Repo> loadRepo(String login, String name);
 
-    @Query("SELECT * FROM Repo "
-            + "WHERE owner_login = :owner "
-            + "ORDER BY stars DESC")
-    public abstract LiveData<List<Repo>> loadRepos(String owner);
-
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT login, avatarUrl, contributions FROM contributor "
             + "WHERE repoOwner = :owner AND repoName = :name "

@@ -1,21 +1,16 @@
 package com.architecture.component.app;
 
-import android.app.Activity;
 import android.app.Application;
+import android.arch.persistence.room.Room;
 
-import com.architecture.component.di.AppInjector;
+import com.architecture.component.db.database.AppDatabase;
 
-import javax.inject.Inject;
-
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasActivityInjector;
 import timber.log.BuildConfig;
 import timber.log.Timber;
 
-public class DemoApp extends Application implements HasActivityInjector {
+public class DemoApp extends Application {
 
-    @Inject
-    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+    public static AppDatabase appDatabase;
 
     @Override
     public void onCreate() {
@@ -23,11 +18,8 @@ public class DemoApp extends Application implements HasActivityInjector {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
-        AppInjector.init(this);
-    }
 
-    @Override
-    public DispatchingAndroidInjector<Activity> activityInjector() {
-        return dispatchingAndroidInjector;
+        appDatabase = Room.databaseBuilder(this, AppDatabase.class, AppDatabase.DATABASE_NAME).build();
+
     }
 }

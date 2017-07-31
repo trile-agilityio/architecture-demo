@@ -6,8 +6,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-import javax.inject.Inject;
-
 /**
  * Binding adapters that work with a fragment instance.
  */
@@ -15,7 +13,6 @@ public class FragmentBindingAdapters {
 
     final Fragment fragment;
 
-    @Inject
     public FragmentBindingAdapters(Fragment fragment) {
         this.fragment = fragment;
     }

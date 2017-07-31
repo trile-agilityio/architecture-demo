@@ -3,12 +3,11 @@ package com.architecture.component.util.common;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
-import com.architecture.component.db.database.GithubDb;
+import com.architecture.component.db.database.AppDatabase;
 import com.architecture.component.db.entity.SearchResult;
 import com.architecture.component.service.api.IGithubApi;
 import com.architecture.component.service.base.ResponseApi;
 import com.architecture.component.service.response.SearchResponse;
-import com.architecture.component.util.common.Resource;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,9 +23,9 @@ public class FetchNextSearchPageTask implements Runnable {
     private final MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
     private final String query;
     private final IGithubApi githubApi;
-    private final GithubDb db;
+    private final AppDatabase db;
 
-    public FetchNextSearchPageTask(String query, IGithubApi githubApi, GithubDb db) {
+    public FetchNextSearchPageTask(String query, IGithubApi githubApi, AppDatabase db) {
         this.query = query;
         this.githubApi = githubApi;
         this.db = db;
