@@ -2,7 +2,7 @@ package com.architecture.component.ui.adapter;
 
 import android.arch.lifecycle.LiveData;
 
-import com.android.example.architecture.service.networking.base.ApiResponse;
+import com.architecture.component.service.base.ResponseApi;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
@@ -22,7 +22,7 @@ public class LiveDataCallAdapterFactory extends CallAdapter.Factory {
         Type observableType = getParameterUpperBound(0, (ParameterizedType) returnType);
         Class<?> rawObservableType = getRawType(observableType);
 
-        if (rawObservableType != ApiResponse.class) {
+        if (rawObservableType != ResponseApi.class) {
             throw new IllegalArgumentException("type must be a resource");
         }
 
