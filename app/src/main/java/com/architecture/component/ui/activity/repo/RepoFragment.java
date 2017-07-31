@@ -18,6 +18,7 @@ import com.architecture.component.R;
 import com.architecture.component.binding.FragmentDataBindingComponent;
 import com.architecture.component.databinding.RepoFragmentBinding;
 import com.architecture.component.db.entity.Repo;
+import com.architecture.component.di.Injectable;
 import com.architecture.component.ui.adapter.ContributorAdapter;
 import com.architecture.component.util.common.AutoClearedValue;
 import com.architecture.component.util.common.Resource;
@@ -26,7 +27,7 @@ import java.util.Collections;
 
 import javax.inject.Inject;
 
-public class RepoFragment extends Fragment implements LifecycleRegistryOwner {
+public class RepoFragment extends Fragment implements LifecycleRegistryOwner, Injectable {
 
     private static final String REPO_OWNER_KEY = "repo_owner";
     private static final String REPO_NAME_KEY = "repo_name";

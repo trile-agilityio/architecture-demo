@@ -19,6 +19,7 @@ import android.view.inputmethod.EditorInfo;
 import com.architecture.component.R;
 import com.architecture.component.binding.FragmentDataBindingComponent;
 import com.architecture.component.databinding.SearchFragmentBinding;
+import com.architecture.component.di.Injectable;
 import com.architecture.component.ui.adapter.RepoListAdapter;
 import com.architecture.component.ui.base.NavigationController;
 import com.architecture.component.util.common.AutoClearedValue;
@@ -29,7 +30,7 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
-public class SearchFragment extends LifecycleFragment {
+public class SearchFragment extends LifecycleFragment implements Injectable {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;

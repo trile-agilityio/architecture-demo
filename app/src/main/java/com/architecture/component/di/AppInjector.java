@@ -21,12 +21,12 @@ public class AppInjector {
     private AppInjector() {
     }
 
-    public static void init(DemoApp app) {
+    public static void init(DemoApp demoApp) {
 
-//        DaggerAppComponent.builder().application(app)
-//                .build().inject(app);
+//        DaggerAppComponent.builder().application(demoApp)
+//                .build().inject(demoApp);
 
-        app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+        demoApp.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 handleActivity(activity);
