@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.architecture.component.R;
-import com.architecture.component.databinding.ItemContributorBinding;
+import com.architecture.component.databinding.ContributorItemBinding;
 import com.architecture.component.db.entity.Contributor;
 
 import java.util.Objects;
 
-public class ContributorAdapter extends DataBoundListAdapter<Contributor, ItemContributorBinding> {
+public class ContributorAdapter extends DataBoundListAdapter<Contributor, ContributorItemBinding> {
 
     private final DataBindingComponent dataBindingComponent;
 
@@ -20,18 +20,18 @@ public class ContributorAdapter extends DataBoundListAdapter<Contributor, ItemCo
     }
 
     @Override
-    protected ItemContributorBinding createBinding(ViewGroup parent) {
+    protected ContributorItemBinding createBinding(ViewGroup parent) {
 
         // Binding data
-        ItemContributorBinding binding = DataBindingUtil
+        ContributorItemBinding binding = DataBindingUtil
                 .inflate(LayoutInflater.from(parent.getContext()),
-                        R.layout.item_contributor, parent, false, dataBindingComponent);
+                        R.layout.contributor_item, parent, false, dataBindingComponent);
 
         return binding;
     }
 
     @Override
-    protected void bind(ItemContributorBinding binding, Contributor item) {
+    protected void bind(ContributorItemBinding binding, Contributor item) {
         binding.setContributor(item);
     }
 

@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.architecture.component.R;
-import com.architecture.component.databinding.ItemRepoBinding;
+import com.architecture.component.databinding.RepoItemBinding;
 import com.architecture.component.db.entity.Repo;
 
 import java.util.Objects;
@@ -14,7 +14,7 @@ import java.util.Objects;
 /**
  * A RecyclerView adapter for Repositories list.
  */
-public class RepoListAdapter extends DataBoundListAdapter<Repo, ItemRepoBinding> {
+public class RepoListAdapter extends DataBoundListAdapter<Repo, RepoItemBinding> {
 
     private final DataBindingComponent dataBindingComponent;
     private final RepoClickCallback repoClickCallback;
@@ -28,11 +28,11 @@ public class RepoListAdapter extends DataBoundListAdapter<Repo, ItemRepoBinding>
     }
 
     @Override
-    protected ItemRepoBinding createBinding(ViewGroup parent) {
+    protected RepoItemBinding createBinding(ViewGroup parent) {
         // data binding
-        ItemRepoBinding binding = DataBindingUtil.inflate(
+        RepoItemBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
-                R.layout.item_repo, parent, false, dataBindingComponent);
+                R.layout.repo_item, parent, false, dataBindingComponent);
 
         // show full name
         binding.setShowFullName(isShowFullName);
@@ -50,7 +50,7 @@ public class RepoListAdapter extends DataBoundListAdapter<Repo, ItemRepoBinding>
     }
 
     @Override
-    protected void bind(ItemRepoBinding binding, Repo item) {
+    protected void bind(RepoItemBinding binding, Repo item) {
         binding.setRepo(item);
     }
 
