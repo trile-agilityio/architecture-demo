@@ -5,90 +5,38 @@ import android.arch.lifecycle.Transformations;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.architecture.component.app.DemoApp;
 import com.architecture.component.db.dao.RepoDao;
-import com.architecture.component.db.database.GithubDb;
+import com.architecture.component.db.database.AppDatabase;
 import com.architecture.component.db.entity.Contributor;
 import com.architecture.component.db.entity.Repo;
 import com.architecture.component.db.entity.SearchResult;
 import com.architecture.component.service.api.IGithubApi;
+import com.architecture.component.service.base.BaseApi;
 import com.architecture.component.service.base.ResponseApi;
 import com.architecture.component.service.response.SearchResponse;
 import com.architecture.component.util.common.AbsentLiveData;
 import com.architecture.component.util.common.AppExecutors;
 import com.architecture.component.util.common.FetchNextSearchPageTask;
 import com.architecture.component.util.common.NetworkBoundResource;
-import com.architecture.component.util.common.RateLimiter;
 import com.architecture.component.util.common.Resource;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import timber.log.Timber;
 
-@Singleton
 public class RepoRepository {
 
-    private final GithubDb db;
-    private final RepoDao repoDao;
-    private final IGithubApi githubApi;
-    private final AppExecutors appExecutors;
-    private RateLimiter<String> repoListRateLimit = new RateLimiter<>(10, TimeUnit.MINUTES);
+    private AppDatabase db;
+    private RepoDao repoDao;
+    private IGithubApi githubApi;
+    private AppExecutors appExecutors;
 
-    @Inject
-    public RepoRepository(AppExecutors appExecutors, GithubDb db, RepoDao repoDao,
-                          IGithubApi githubService) {
-        this.db = db;
-        this.repoDao = repoDao;
-        this.githubApi = githubService;
-        this.appExecutors = appExecutors;
-    }
-
-    /**
-     * Load list Repositories.
-     *
-     * @param owner {@link String}
-     * @return {@link List<Repo>}
-     */
-    public LiveData<Resource<List<Repo>>> loadRepositories(String owner) {
-
-        return new NetworkBoundResource<List<Repo>, List<Repo>>(appExecutors) {
-            @Override
-            protected void saveCallResult(@NonNull List<Repo> item) {
-                Timber.d("save list Repos");
-                repoDao.insertRepos(item);
-            }
-
-            @Override
-            protected boolean shouldFetch(@Nullable List<Repo> data) {
-                final boolean result = data == null || data.isEmpty()
-                        || repoListRateLimit.shouldFetch(owner);
-
-                Timber.d("should fetch Repos data : " + result);
-                return result;
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<List<Repo>> loadFromDb() {
-                Timber.d("load list repos from DB");
-                return repoDao.loadRepos(owner);
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<ResponseApi<List<Repo>>> createCall() {
-                Timber.d("load list Repos from api");
-                return githubApi.getRepos(owner);
-            }
-
-            @Override
-            protected void onFetchFailed() {
-                repoListRateLimit.reset(owner);
-            }
-        }.asLiveData();
+    public RepoRepository() {
+        this.db = DemoApp.appDatabase;
+        this.repoDao = db.repoDao();
+        this.githubApi = BaseApi.getGithubApi();
+        this.appExecutors = new AppExecutors();
     }
 
     /**

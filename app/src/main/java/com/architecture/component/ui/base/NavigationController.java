@@ -7,17 +7,19 @@ import com.architecture.component.ui.activity.MainActivity;
 import com.architecture.component.ui.activity.repo.RepoFragment;
 import com.architecture.component.ui.activity.search.SearchFragment;
 
-import javax.inject.Inject;
-
 public class NavigationController {
 
     private final int containerId;
     private final FragmentManager fragmentManager;
 
-    @Inject
     public NavigationController(MainActivity mainActivity) {
         this.containerId = R.id.container;
         this.fragmentManager = mainActivity.getSupportFragmentManager();
+    }
+
+    public NavigationController(SearchFragment searchFragment) {
+        this.containerId = R.id.container;
+        this.fragmentManager = searchFragment.getChildFragmentManager();
     }
 
     public void navigateToSearch() {

@@ -3,7 +3,6 @@ package com.architecture.component.ui.activity.repo;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
@@ -18,26 +17,19 @@ import com.architecture.component.R;
 import com.architecture.component.binding.FragmentDataBindingComponent;
 import com.architecture.component.databinding.RepoFragmentBinding;
 import com.architecture.component.db.entity.Repo;
-import com.architecture.component.di.Injectable;
 import com.architecture.component.ui.adapter.ContributorAdapter;
 import com.architecture.component.util.common.AutoClearedValue;
 import com.architecture.component.util.common.Resource;
+import com.architecture.component.viewmodel.RepoViewModel;
 
 import java.util.Collections;
 
-import javax.inject.Inject;
-
-public class RepoFragment extends Fragment implements LifecycleRegistryOwner, Injectable {
+public class RepoFragment extends Fragment implements LifecycleRegistryOwner {
 
     private static final String REPO_OWNER_KEY = "repo_owner";
     private static final String REPO_NAME_KEY = "repo_name";
 
     private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
-
-    @Inject
-    public
-    ViewModelProvider.Factory viewModelFactory;
-
     private RepoViewModel repoViewModel;
 
     public DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
@@ -66,8 +58,11 @@ public class RepoFragment extends Fragment implements LifecycleRegistryOwner, In
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        RepoViewModel.Factory factory = new RepoViewModel.Factory(
+                getActivity().getApplication());
+
         // Init RepoViewModel
-        repoViewModel = ViewModelProviders.of(this, viewModelFactory)
+        repoViewModel = ViewModelProviders.of(this, factory)
                 .get(RepoViewModel.class);
         Bundle args = getArguments();
 

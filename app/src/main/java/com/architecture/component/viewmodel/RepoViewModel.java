@@ -1,9 +1,13 @@
-package com.architecture.component.ui.activity.repo;
+package com.architecture.component.viewmodel;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.architecture.component.db.entity.Contributor;
@@ -15,17 +19,18 @@ import com.architecture.component.util.common.Resource;
 import java.util.List;
 import java.util.Objects;
 
-import javax.inject.Inject;
-
-public class RepoViewModel extends ViewModel {
+public class RepoViewModel extends AndroidViewModel {
 
     @VisibleForTesting
-    final MutableLiveData<RepoId> repoId;
-    private final LiveData<Resource<Repo>> repo;
-    private final LiveData<Resource<List<Contributor>>> contributors;
+    private MutableLiveData<RepoId> repoId;
+    private LiveData<Resource<Repo>> repo;
+    private LiveData<Resource<List<Contributor>>> contributors;
+    private RepoRepository repoRepository;
 
-    @Inject
-    public RepoViewModel(RepoRepository repository) {
+    public RepoViewModel(Application application) {
+        super(application);
+
+        repoRepository = new RepoRepository();
         this.repoId = new MutableLiveData<>();
 
         // Load repositories
@@ -33,7 +38,7 @@ public class RepoViewModel extends ViewModel {
             if (input.isEmpty()) {
                 return AbsentLiveData.create();
             }
-            return repository.loadRepository(input.owner, input.name);
+            return repoRepository.loadRepository(input.owner, input.name);
         });
 
         // Load Contributors
@@ -42,7 +47,7 @@ public class RepoViewModel extends ViewModel {
                 return AbsentLiveData.create();
             }
 
-            return repository.loadContributors(input.owner, input.name);
+            return repoRepository.loadContributors(input.owner, input.name);
         });
     }
 
@@ -76,7 +81,7 @@ public class RepoViewModel extends ViewModel {
      * @param owner The {@link String}
      * @param name  The {@link String}
      */
-    void setId(String owner, String name) {
+    public void setId(String owner, String name) {
         RepoId update = new RepoId(owner, name);
         if (Objects.equals(repoId.getValue(), update)) {
             return;
@@ -120,6 +125,22 @@ public class RepoViewModel extends ViewModel {
             int result = owner != null ? owner.hashCode() : 0;
             result = 31 * result + (name != null ? name.hashCode() : 0);
             return result;
+        }
+    }
+
+    public static class Factory extends ViewModelProvider.NewInstanceFactory {
+
+        @NonNull
+        private final Application mApplication;
+
+        public Factory(@NonNull Application application) {
+            mApplication = application;
+        }
+
+        @Override
+        public <T extends ViewModel> T create(Class<T> modelClass) {
+            //noinspection unchecked
+            return (T) new RepoViewModel(mApplication);
         }
     }
 }

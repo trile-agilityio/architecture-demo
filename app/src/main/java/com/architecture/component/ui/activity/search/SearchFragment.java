@@ -1,7 +1,6 @@
 package com.architecture.component.ui.activity.search;
 
 import android.arch.lifecycle.LifecycleFragment;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
@@ -19,25 +18,17 @@ import android.view.inputmethod.EditorInfo;
 import com.architecture.component.R;
 import com.architecture.component.binding.FragmentDataBindingComponent;
 import com.architecture.component.databinding.SearchFragmentBinding;
-import com.architecture.component.di.Injectable;
 import com.architecture.component.ui.adapter.RepoListAdapter;
 import com.architecture.component.ui.base.NavigationController;
 import com.architecture.component.util.common.AutoClearedValue;
 import com.architecture.component.util.view.ViewUtils;
 import com.architecture.component.viewmodel.SearchViewModel;
 
-import javax.inject.Inject;
-
 import timber.log.Timber;
 
-public class SearchFragment extends LifecycleFragment implements Injectable {
+public class SearchFragment extends LifecycleFragment {
 
-    @Inject
-    ViewModelProvider.Factory viewModelFactory;
-
-    @Inject
-    NavigationController navigationController;
-
+    private NavigationController navigationController;
     private DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
     private AutoClearedValue<SearchFragmentBinding> binding;
     private AutoClearedValue<RepoListAdapter> adapter;
@@ -52,6 +43,7 @@ public class SearchFragment extends LifecycleFragment implements Injectable {
         SearchFragmentBinding dataBinding = DataBindingUtil
                 .inflate(inflater, R.layout.search_fragment, container, false, dataBindingComponent);
 
+        navigationController = new NavigationController(this);
         binding = new AutoClearedValue<>(this, dataBinding);
 
         return dataBinding.getRoot();
@@ -59,8 +51,13 @@ public class SearchFragment extends LifecycleFragment implements Injectable {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        SearchViewModel.Factory factory = new SearchViewModel.Factory(
+                getActivity().getApplication());
+
         // search view model
-        searchViewModel = ViewModelProviders.of(this, viewModelFactory)
+        searchViewModel = ViewModelProviders.of(this, factory)
                 .get(SearchViewModel.class);
 
         dataBinding();
@@ -73,8 +70,6 @@ public class SearchFragment extends LifecycleFragment implements Injectable {
 
         // search listener
         searchListener();
-
-        super.onActivityCreated(savedInstanceState);
     }
 
     /**
