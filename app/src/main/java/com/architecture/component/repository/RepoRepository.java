@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import com.architecture.component.db.dao.RepoDao;
 import com.architecture.component.db.database.GithubDb;
 import com.architecture.component.db.entity.Contributor;
-import com.architecture.component.db.entity.Owner;
 import com.architecture.component.db.entity.Repo;
 import com.architecture.component.db.entity.SearchResult;
 import com.architecture.component.service.api.IGithubApi;
@@ -153,7 +152,7 @@ public class RepoRepository {
 
                     repoDao.createRepoIfNotExists(new Repo(Repo.UNKNOWN_ID,
                             name, owner + "/" + name, "",
-                            new Owner(owner, null), 0));
+                            new Repo.Owner(owner, null), 0));
                     repoDao.insertContributors(contributors);
 
                     db.setTransactionSuccessful();
