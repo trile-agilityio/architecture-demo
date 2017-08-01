@@ -18,8 +18,8 @@ import android.view.inputmethod.EditorInfo;
 import com.architecture.component.R;
 import com.architecture.component.binding.FragmentDataBindingComponent;
 import com.architecture.component.databinding.SearchFragmentBinding;
+import com.architecture.component.ui.activity.MainActivity;
 import com.architecture.component.ui.adapter.RepoListAdapter;
-import com.architecture.component.ui.base.NavigationController;
 import com.architecture.component.util.common.AutoClearedValue;
 import com.architecture.component.util.view.ViewUtils;
 import com.architecture.component.viewmodel.SearchViewModel;
@@ -28,7 +28,6 @@ import timber.log.Timber;
 
 public class SearchFragment extends LifecycleFragment {
 
-    private NavigationController navigationController;
     private DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
     private AutoClearedValue<SearchFragmentBinding> binding;
     private AutoClearedValue<RepoListAdapter> adapter;
@@ -43,7 +42,6 @@ public class SearchFragment extends LifecycleFragment {
         SearchFragmentBinding dataBinding = DataBindingUtil
                 .inflate(inflater, R.layout.search_fragment, container, false, dataBindingComponent);
 
-        navigationController = new NavigationController(this);
         binding = new AutoClearedValue<>(this, dataBinding);
 
         return dataBinding.getRoot();
@@ -64,7 +62,7 @@ public class SearchFragment extends LifecycleFragment {
 
         // repositories adapter
         RepoListAdapter repoListAdapter = new RepoListAdapter(dataBindingComponent, true,
-                repo -> navigationController.navigateToRepo(repo.owner.login, repo.name));
+                repo -> MainActivity.navigationController.navigateToRepo(repo.owner.login, repo.name));
         binding.get().repoList.setAdapter(repoListAdapter);
         adapter = new AutoClearedValue<>(this, repoListAdapter);
 
