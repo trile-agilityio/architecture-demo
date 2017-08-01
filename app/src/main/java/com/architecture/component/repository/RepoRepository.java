@@ -48,7 +48,7 @@ public class RepoRepository {
      * @param name The {@link String}
      * @return {@link Repo}
      */
-    public LiveData<Resource<Repo>> loadRepository(String owner, String name) {
+    public LiveData<Resource<Repo>> loadRepo(String owner, String name) {
 
         return new NetworkBoundResource<Repo, Repo>(appExecutors) {
             @Override
@@ -180,7 +180,6 @@ public class RepoRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable List<Repo> data) {
-                Timber.d("shouldFetch :", String.valueOf(data == null));
                 return data == null;
             }
 
@@ -189,7 +188,7 @@ public class RepoRepository {
             protected LiveData<List<Repo>> loadFromDb() {
                 Timber.d("loadFromDb");
 
-                return Transformations.switchMap(repoDao.search(query), searchData->{
+                return Transformations.switchMap(repoDao.search(query), searchData -> {
                     if (searchData == null) {
                         return AbsentLiveData.create();
                     } else {

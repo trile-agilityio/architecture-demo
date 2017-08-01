@@ -68,6 +68,8 @@ public class SearchFragment extends LifecycleFragment {
 
         // search listener
         searchListener();
+
+        binding.get().setCallback(() -> searchViewModel.refresh());
     }
 
     /**
@@ -122,7 +124,7 @@ public class SearchFragment extends LifecycleFragment {
                         recyclerView.getLayoutManager();
 
                 int lastPosition = layoutManager.findLastVisibleItemPosition();
-                if (lastPosition == adapter.get().getItemCount()) {
+                if (lastPosition == adapter.get().getItemCount() - 1) {
                     searchViewModel.loadNextPage();
                 }
             }

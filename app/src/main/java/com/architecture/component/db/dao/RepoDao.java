@@ -16,9 +16,6 @@ import com.architecture.component.db.entity.RepoSearchResult;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Interface for database access on Repo related operations.
- */
 @Dao
 public abstract class RepoDao {
 
@@ -43,11 +40,6 @@ public abstract class RepoDao {
             + "ORDER BY contributions DESC")
     public abstract LiveData<List<Contributor>> loadContributors(String owner, String name);
 
-    @Query("SELECT * FROM Repo "
-            + "WHERE owner_login = :owner "
-            + "ORDER BY stars DESC")
-    public abstract LiveData<List<Repo>> loadRepositories(String owner);
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insert(RepoSearchResult result);
 
@@ -57,15 +49,18 @@ public abstract class RepoDao {
     public LiveData<List<Repo>> loadOrdered(List<Integer> repoIds) {
         SparseIntArray order = new SparseIntArray();
         int index = 0;
+
         for (Integer repoId : repoIds) {
             order.put(repoId, index++);
         }
-        return Transformations.map(loadById(repoIds), repositories->{
-            Collections.sort(repositories, (r1, r2)->{
+
+        return Transformations.map(loadById(repoIds), repositories -> {
+            Collections.sort(repositories, (r1, r2) -> {
                 int pos1 = order.get(r1.id);
                 int pos2 = order.get(r2.id);
                 return pos1 - pos2;
             });
+
             return repositories;
         });
     }

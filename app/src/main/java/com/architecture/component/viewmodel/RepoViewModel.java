@@ -34,15 +34,15 @@ public class RepoViewModel extends AndroidViewModel {
         this.repoId = new MutableLiveData<>();
 
         // Load repositories
-        repo = Transformations.switchMap(repoId, input->{
+        repo = Transformations.switchMap(repoId, input -> {
             if (input.isEmpty()) {
                 return AbsentLiveData.create();
             }
-            return repoRepository.loadRepository(input.owner, input.name);
+            return repoRepository.loadRepo(input.owner, input.name);
         });
 
         // Load Contributors
-        contributors = Transformations.switchMap(repoId, input->{
+        contributors = Transformations.switchMap(repoId, input -> {
             if (input.isEmpty()) {
                 return AbsentLiveData.create();
             }
