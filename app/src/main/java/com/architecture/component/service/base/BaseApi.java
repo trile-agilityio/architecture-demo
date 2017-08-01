@@ -1,7 +1,7 @@
 package com.architecture.component.service.base;
 
 import com.architecture.component.service.api.IGithubApi;
-import com.architecture.component.ui.adapter.LiveDataCallAdapterFactory;
+import com.architecture.component.ui.adapter.base.LiveDataCallAdapterFactory;
 import com.architecture.component.util.constant.Config;
 
 import retrofit2.Retrofit;

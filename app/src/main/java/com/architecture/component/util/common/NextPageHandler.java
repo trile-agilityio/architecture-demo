@@ -62,8 +62,7 @@ public class NextPageHandler implements Observer<Resource<Boolean>> {
                 case ERROR:
                     hasMore = true;
                     unregister();
-                    loadMoreState.setValue(new LoadMoreState(false,
-                            result.message));
+                    loadMoreState.setValue(new LoadMoreState(false, result.message));
                     break;
             }
         }

@@ -1,4 +1,4 @@
-package com.architecture.component.ui.adapter;
+package com.architecture.component.ui.adapter.base;
 
 import android.databinding.ViewDataBinding;
 import android.os.AsyncTask;

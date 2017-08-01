@@ -30,7 +30,7 @@ public class RepoViewModel extends AndroidViewModel {
     public RepoViewModel(Application application) {
         super(application);
 
-        repoRepository = new RepoRepository();
+        repoRepository = new RepoRepository(this.getApplication());
         this.repoId = new MutableLiveData<>();
 
         // Load repositories

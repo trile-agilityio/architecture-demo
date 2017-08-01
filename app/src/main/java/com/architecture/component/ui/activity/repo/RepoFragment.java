@@ -98,6 +98,7 @@ public class RepoFragment extends Fragment implements LifecycleRegistryOwner {
      * @param viewModel The {@link RepoViewModel}
      */
     private void initContributorList(RepoViewModel viewModel) {
+
         viewModel.getContributors().observe(this, contributors -> {
             if (contributors != null && contributors.data != null) {
                 adapter.get().replace(contributors.data);

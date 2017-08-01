@@ -2,15 +2,16 @@ package com.architecture.component.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
+import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.architecture.component.app.DemoApp;
 import com.architecture.component.db.dao.RepoDao;
-import com.architecture.component.db.database.AppDatabase;
+import com.architecture.component.db.database.GithubDb;
 import com.architecture.component.db.entity.Contributor;
 import com.architecture.component.db.entity.Repo;
-import com.architecture.component.db.entity.SearchResult;
+import com.architecture.component.db.entity.RepoSearchResult;
 import com.architecture.component.service.api.IGithubApi;
 import com.architecture.component.service.base.BaseApi;
 import com.architecture.component.service.base.ResponseApi;
@@ -20,6 +21,7 @@ import com.architecture.component.util.common.AppExecutors;
 import com.architecture.component.util.common.FetchNextSearchPageTask;
 import com.architecture.component.util.common.NetworkBoundResource;
 import com.architecture.component.util.common.Resource;
+import com.architecture.component.util.constant.Config;
 
 import java.util.List;
 
@@ -27,13 +29,13 @@ import timber.log.Timber;
 
 public class RepoRepository {
 
-    private AppDatabase db;
+    private GithubDb db;
     private RepoDao repoDao;
     private IGithubApi githubApi;
     private AppExecutors appExecutors;
 
-    public RepoRepository() {
-        this.db = DemoApp.appDatabase;
+    public RepoRepository(Context context) {
+        this.db = Room.databaseBuilder(context, GithubDb.class, Config.GITHUB_DB_NAME).build();
         this.repoDao = db.repoDao();
         this.githubApi = BaseApi.getGithubApi();
         this.appExecutors = new AppExecutors();
@@ -67,7 +69,7 @@ public class RepoRepository {
             @Override
             protected LiveData<Repo> loadFromDb() {
                 Timber.d("load Repo from local");
-                return repoDao.loadRepo(owner, name);
+                return repoDao.load(owner, name);
             }
 
             @NonNull
@@ -164,7 +166,7 @@ public class RepoRepository {
                 Timber.d("saveCallResult");
 
                 List<Integer> repoIds = item.getRepoIds();
-                SearchResult SearchResult = new SearchResult(
+                RepoSearchResult SearchResult = new RepoSearchResult(
                         query, repoIds, item.getTotal(), item.getNextPage());
                 db.beginTransaction();
                 try {

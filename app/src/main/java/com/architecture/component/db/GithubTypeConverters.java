@@ -1,4 +1,4 @@
-package com.architecture.component.db.Converter;
+package com.architecture.component.db;
 
 import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.util.StringUtil;
@@ -20,4 +20,5 @@ public class GithubTypeConverters {
     public static String intListToString(List<Integer> ints) {
         return StringUtil.joinIntoString(ints);
     }
+
 }

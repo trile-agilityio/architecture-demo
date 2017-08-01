@@ -3,8 +3,8 @@ package com.architecture.component.util.common;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
-import com.architecture.component.db.database.AppDatabase;
-import com.architecture.component.db.entity.SearchResult;
+import com.architecture.component.db.database.GithubDb;
+import com.architecture.component.db.entity.RepoSearchResult;
 import com.architecture.component.service.api.IGithubApi;
 import com.architecture.component.service.base.ResponseApi;
 import com.architecture.component.service.response.SearchResponse;
@@ -23,9 +23,9 @@ public class FetchNextSearchPageTask implements Runnable {
     private final MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
     private final String query;
     private final IGithubApi githubApi;
-    private final AppDatabase db;
+    private final GithubDb db;
 
-    public FetchNextSearchPageTask(String query, IGithubApi githubApi, AppDatabase db) {
+    public FetchNextSearchPageTask(String query, IGithubApi githubApi, GithubDb db) {
         this.query = query;
         this.githubApi = githubApi;
         this.db = db;
@@ -33,7 +33,7 @@ public class FetchNextSearchPageTask implements Runnable {
 
     @Override
     public void run() {
-        SearchResult current = db.repoDao().findSearchResult(query);
+        RepoSearchResult current = db.repoDao().findSearchResult(query);
 
         if(current == null) {
             liveData.postValue(null);
@@ -57,7 +57,7 @@ public class FetchNextSearchPageTask implements Runnable {
                 ids.addAll(current.repoIds);
                 //noinspection ConstantConditions
                 ids.addAll(apiResponse.body.getRepoIds());
-                SearchResult merged = new SearchResult(query, ids,
+                RepoSearchResult merged = new RepoSearchResult(query, ids,
                         apiResponse.body.getTotal(), apiResponse.getNextPage());
 
                 try {

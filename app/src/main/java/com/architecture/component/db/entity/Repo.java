@@ -46,7 +46,6 @@ public class Repo {
     public static class Owner {
         @SerializedName("login")
         public final String login;
-
         @SerializedName("url")
         public final String url;
 

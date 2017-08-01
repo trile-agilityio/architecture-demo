@@ -29,7 +29,7 @@ public class SearchViewModel extends AndroidViewModel {
 
     public SearchViewModel(Application application) {
         super(application);
-        repoRepository = new RepoRepository();
+        repoRepository = new RepoRepository(this.getApplication());
 
         nextPageHandler = new NextPageHandler(repoRepository);
         results = Transformations.switchMap(query, search -> {

@@ -1,4 +1,4 @@
-package com.architecture.component.ui.adapter;
+package com.architecture.component.ui.adapter.base;
 
 import android.arch.lifecycle.LiveData;
 
