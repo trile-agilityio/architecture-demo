@@ -4,7 +4,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.Nullable;
 
-import com.architecture.component.db.Converter.GithubTypeConverters;
+import com.architecture.component.db.converter.GithubTypeConverters;
 
 import java.util.List;
 
