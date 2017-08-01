@@ -21,7 +21,6 @@ import java.util.Objects;
 
 public class RepoViewModel extends AndroidViewModel {
 
-    @VisibleForTesting
     private MutableLiveData<RepoId> repoId;
     private LiveData<Resource<Repo>> repo;
     private LiveData<Resource<List<Contributor>>> contributors;
