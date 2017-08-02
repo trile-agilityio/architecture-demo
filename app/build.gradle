@@ -10,7 +10,6 @@ buildscript {
 
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 25
@@ -52,12 +51,6 @@ android {
 
 dependencies {
     testCompile "junit:junit:$junit_version"
-    testCompile "com.squareup.okhttp3:mockwebserver:$mockwebserver_version"
-    testCompile ("android.arch.core:core-testing:$arch_version", {
-        exclude group: 'com.android.support', module: 'support-compat'
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'support-core-utils'
-    })
 
     // androidTestCompile
     androidTestCompile "com.android.support:appcompat-v7:$support_version"
@@ -73,10 +66,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     })
-
-    androidTestCompile("android.arch.core:core-testing:$arch_version", {
-    })
-    androidTestCompile "org.mockito:mockito-android:$mockito_version"
 
     // support
     compile "com.android.support:appcompat-v7:$support_version"
@@ -98,9 +87,6 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
     compile "com.github.bumptech.glide:glide:$glide_version"
-
-    apt 'com.android.databinding:compiler:2.3.0'
-    provided 'javax.annotation:jsr250-api:1.0'
 
     // Timber
     compile "com.jakewharton.timber:timber:$timber_version"

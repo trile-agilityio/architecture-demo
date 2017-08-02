@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.architecture.component.R;
 import com.architecture.component.databinding.RepoItemBinding;
 import com.architecture.component.db.entity.Repo;
+import com.architecture.component.ui.adapter.base.DataBoundListAdapter;
 
 import java.util.Objects;
 

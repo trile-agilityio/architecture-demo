@@ -1,13 +1,9 @@
 package com.architecture.component.viewmodel;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.architecture.component.db.entity.Contributor;
@@ -19,7 +15,7 @@ import com.architecture.component.util.common.Resource;
 import java.util.List;
 import java.util.Objects;
 
-public class RepoViewModel extends AndroidViewModel {
+public class RepoViewModel extends ViewModel {
 
     @VisibleForTesting
     private MutableLiveData<RepoId> repoId;
@@ -27,9 +23,7 @@ public class RepoViewModel extends AndroidViewModel {
     private LiveData<Resource<List<Contributor>>> contributors;
     private RepoRepository repoRepository;
 
-    public RepoViewModel(Application application) {
-        super(application);
-
+    public RepoViewModel() {
         repoRepository = new RepoRepository();
         this.repoId = new MutableLiveData<>();
 
@@ -125,22 +119,6 @@ public class RepoViewModel extends AndroidViewModel {
             int result = owner != null ? owner.hashCode() : 0;
             result = 31 * result + (name != null ? name.hashCode() : 0);
             return result;
-        }
-    }
-
-    public static class Factory extends ViewModelProvider.NewInstanceFactory {
-
-        @NonNull
-        private final Application mApplication;
-
-        public Factory(@NonNull Application application) {
-            mApplication = application;
-        }
-
-        @Override
-        public <T extends ViewModel> T create(Class<T> modelClass) {
-            //noinspection unchecked
-            return (T) new RepoViewModel(mApplication);
         }
     }
 }

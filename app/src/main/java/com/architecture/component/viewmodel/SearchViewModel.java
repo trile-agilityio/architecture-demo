@@ -1,12 +1,9 @@
 package com.architecture.component.viewmodel;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
 import com.architecture.component.db.entity.Repo;
@@ -20,15 +17,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class SearchViewModel extends AndroidViewModel {
+public class SearchViewModel extends ViewModel {
 
     private final MutableLiveData<String> query = new MutableLiveData<>();
     private final LiveData<Resource<List<Repo>>> results;
     private final NextPageHandler nextPageHandler;
     private RepoRepository repoRepository;
 
-    public SearchViewModel(Application application) {
-        super(application);
+    public SearchViewModel() {
         repoRepository = new RepoRepository();
 
         nextPageHandler = new NextPageHandler(repoRepository);
@@ -93,21 +89,5 @@ public class SearchViewModel extends AndroidViewModel {
         if (query.getValue() != null) {
             query.setValue(query.getValue());
         }
-    }
-
-    public static class Factory extends ViewModelProvider.NewInstanceFactory {
-
-        @NonNull
-        private final Application mApplication;
-
-        public Factory(@NonNull Application application) {
-            mApplication = application;
-        }
-
-        @Override
-        public <T extends ViewModel> T create(Class<T> modelClass) {
-            //noinspection unchecked
-            return (T) new SearchViewModel(mApplication);
-        }
-    }
+    };
 }
