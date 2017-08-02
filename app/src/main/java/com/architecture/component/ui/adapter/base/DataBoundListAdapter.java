@@ -32,6 +32,7 @@ public abstract class DataBoundListAdapter<T, V extends ViewDataBinding>
 
     @Override
     public void onBindViewHolder(DataBoundViewHolder<V> holder, int position) {
+        //noinspection ConstantConditions
         bind(holder.binding, items.get(position));
         holder.binding.executePendingBindings();
     }
@@ -51,10 +52,9 @@ public abstract class DataBoundListAdapter<T, V extends ViewDataBinding>
 
     @MainThread
     public void replace(List<T> newItems) {
-        dataVersion++;
+        dataVersion ++;
 
         if (items == null) {
-
             if (newItems == null) {
                 return;
             }
@@ -64,18 +64,16 @@ public abstract class DataBoundListAdapter<T, V extends ViewDataBinding>
 
         } else if (newItems == null) {
             int oldSize = items.size();
-
             items = null;
-            notifyItemRangeChanged(0, oldSize);
+            notifyItemRangeRemoved(0, oldSize);
 
         } else {
-            final int startDataVersion = dataVersion;
+            final int startVersion = dataVersion;
             final List<T> oldItems = items;
 
             new AsyncTask<Void, Void, DiffUtil.DiffResult>() {
                 @Override
-                protected DiffUtil.DiffResult doInBackground(Void... params) {
-                    // DiffUtil
+                protected DiffUtil.DiffResult  doInBackground(Void... voids) {
                     return DiffUtil.calculateDiff(new DiffUtil.Callback() {
                         @Override
                         public int getOldListSize() {
@@ -105,13 +103,14 @@ public abstract class DataBoundListAdapter<T, V extends ViewDataBinding>
 
                 @Override
                 protected void onPostExecute(DiffUtil.DiffResult diffResult) {
-                    if (startDataVersion != dataVersion) {
+                    if (startVersion != dataVersion) {
                         // ignore update
                         return;
                     }
 
                     items = newItems;
                     diffResult.dispatchUpdatesTo(DataBoundListAdapter.this);
+
                 }
             }.execute();
         }

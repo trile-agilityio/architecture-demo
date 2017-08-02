@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
-import android.support.annotation.VisibleForTesting;
 
 import com.architecture.component.db.entity.Contributor;
 import com.architecture.component.db.entity.Repo;
@@ -17,7 +16,6 @@ import java.util.Objects;
 
 public class RepoViewModel extends ViewModel {
 
-    @VisibleForTesting
     private MutableLiveData<RepoId> repoId;
     private LiveData<Resource<Repo>> repo;
     private LiveData<Resource<List<Contributor>>> contributors;
@@ -83,7 +81,6 @@ public class RepoViewModel extends ViewModel {
         repoId.setValue(update);
     }
 
-    @VisibleForTesting
     static class RepoId {
         public final String owner;
         public final String name;

@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 import com.architecture.component.repository.RepoRepository;
 
@@ -21,10 +20,8 @@ public class NextPageHandler implements Observer<Resource<Boolean>> {
 
     private final RepoRepository repository;
 
-    @VisibleForTesting
     private boolean hasMore;
 
-    @VisibleForTesting
     public NextPageHandler(RepoRepository repository) {
         this.repository = repository;
         reset();

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.architecture.component.R;
-import com.architecture.component.ui.activity.search.SearchFragment;
+import com.architecture.component.ui.base.NavigationController;
 
 public class MainActivity extends AppCompatActivity implements LifecycleRegistryOwner {
 
@@ -17,15 +17,18 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
         return lifecycle;
     }
 
+    public static NavigationController navigationController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        SearchFragment searchFragment = new SearchFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, searchFragment)
-                .commitAllowingStateLoss();
+        navigationController = new NavigationController(this);
+
+        if (savedInstanceState == null) {
+            navigationController.navigateToSearch();
+        }
     }
 
 }
