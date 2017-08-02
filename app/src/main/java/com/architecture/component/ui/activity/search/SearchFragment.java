@@ -70,6 +70,8 @@ public class SearchFragment extends LifecycleFragment {
 
         // search listener
         searchListener();
+
+        binding.get().setCallback(() -> searchViewModel.refresh());
     }
 
     /**

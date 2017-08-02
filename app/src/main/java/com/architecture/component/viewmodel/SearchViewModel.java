@@ -89,5 +89,5 @@ public class SearchViewModel extends ViewModel {
         if (query.getValue() != null) {
             query.setValue(query.getValue());
         }
-    };
+    }
 }
