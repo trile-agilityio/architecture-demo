@@ -51,11 +51,8 @@ public class SearchFragment extends LifecycleFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ViewModelProviders.DefaultFactory factory =
-                new ViewModelProviders.DefaultFactory(getActivity().getApplication());
-
         // search view model
-        searchViewModel = ViewModelProviders.of(this, factory)
+        searchViewModel = ViewModelProviders.of(this)
                 .get(SearchViewModel.class);
 
         dataBinding();

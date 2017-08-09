@@ -58,11 +58,8 @@ public class RepoFragment extends Fragment implements LifecycleRegistryOwner {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ViewModelProviders.DefaultFactory factory =
-                new ViewModelProviders.DefaultFactory(getActivity().getApplication());
-
         // Init RepoViewModel
-        repoViewModel = ViewModelProviders.of(this, factory)
+        repoViewModel = ViewModelProviders.of(this)
                 .get(RepoViewModel.class);
         Bundle args = getArguments();
 
