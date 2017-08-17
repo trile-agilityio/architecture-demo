@@ -11,7 +11,7 @@ import com.architecture.component.db.database.AppDatabase;
 import com.architecture.component.db.entity.Contributor;
 import com.architecture.component.db.entity.Repo;
 import com.architecture.component.db.entity.SearchResult;
-import com.architecture.component.service.api.IGithubApi;
+import com.architecture.component.service.api.GithubService;
 import com.architecture.component.service.base.BaseApi;
 import com.architecture.component.service.base.ResponseApi;
 import com.architecture.component.service.response.SearchResponse;
@@ -29,13 +29,13 @@ public class RepoRepository {
 
     private AppDatabase db;
     private RepoDao repoDao;
-    private IGithubApi githubApi;
+    private GithubService githubService;
     private AppExecutors appExecutors;
 
     public RepoRepository() {
         this.db = DemoApp.appDatabase;
         this.repoDao = db.repoDao();
-        this.githubApi = BaseApi.getGithubApi();
+        this.githubService = BaseApi.getGithubService();
         this.appExecutors = new AppExecutors();
     }
 
@@ -74,7 +74,7 @@ public class RepoRepository {
             @Override
             protected LiveData<ResponseApi<Repo>> createCall() {
                 Timber.d("load Repo data from api");
-                return githubApi.getRepo(owner, name);
+                return githubService.getRepo(owner, name);
             }
         }.asLiveData();
     }
@@ -131,7 +131,7 @@ public class RepoRepository {
             @Override
             protected LiveData<ResponseApi<List<Contributor>>> createCall() {
                 Timber.d("load contributors from server");
-                return githubApi.getContributors(owner, name);
+                return githubService.getContributors(owner, name);
             }
         }.asLiveData();
     }
@@ -145,7 +145,7 @@ public class RepoRepository {
     public LiveData<Resource<Boolean>> searchNextPage(String query) {
 
         FetchNextSearchPageTask fetchNextSearchPageTask = new FetchNextSearchPageTask(
-                query, githubApi, db);
+                query, githubService, db);
         appExecutors.networkIO().execute(fetchNextSearchPageTask);
         return fetchNextSearchPageTask.getLiveData();
     }
@@ -200,7 +200,7 @@ public class RepoRepository {
             @Override
             protected LiveData<ResponseApi<SearchResponse>> createCall() {
                 Timber.d("createCall");
-                return githubApi.searchRepos(query);
+                return githubService.searchRepos(query);
             }
 
             @Override

@@ -17,11 +17,6 @@ public class NavigationController {
         this.fragmentManager = mainActivity.getSupportFragmentManager();
     }
 
-    public NavigationController(SearchFragment searchFragment) {
-        this.containerId = R.id.container;
-        this.fragmentManager = searchFragment.getChildFragmentManager();
-    }
-
     public void navigateToSearch() {
         SearchFragment searchFragment = new SearchFragment();
         fragmentManager.beginTransaction()

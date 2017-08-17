@@ -14,20 +14,18 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface IGithubApi {
+public interface GithubService {
 
     @GET("repos/{owner}/{name}")
     LiveData<ResponseApi<Repo>> getRepo(@Path("owner") String owner,
                                         @Path("name") String name);
 
-    @GET("users/{login}/repos")
-    LiveData<ResponseApi<List<Repo>>> getRepos(@Path("login") String login);
-
     @GET("search/repositories")
     LiveData<ResponseApi<SearchResponse>> searchRepos(@Query("q") String query);
 
     @GET("search/repositories")
-    Call<SearchResponse> searchRepos(@Query("q") String query, @Query("page") int page);
+    Call<SearchResponse> searchRepos(@Query("q") String query,
+                                     @Query("page") int page);
 
     @GET("repos/{owner}/{name}/contributors")
     LiveData<ResponseApi<List<Contributor>>> getContributors(@Path("owner") String owner,

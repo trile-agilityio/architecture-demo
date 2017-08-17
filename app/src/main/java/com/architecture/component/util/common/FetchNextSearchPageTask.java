@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.architecture.component.db.database.AppDatabase;
 import com.architecture.component.db.entity.SearchResult;
-import com.architecture.component.service.api.IGithubApi;
+import com.architecture.component.service.api.GithubService;
 import com.architecture.component.service.base.ResponseApi;
 import com.architecture.component.service.response.SearchResponse;
 
@@ -22,12 +22,12 @@ public class FetchNextSearchPageTask implements Runnable {
 
     private final MutableLiveData<Resource<Boolean>> liveData = new MutableLiveData<>();
     private final String query;
-    private final IGithubApi githubApi;
+    private final GithubService githubService;
     private final AppDatabase db;
 
-    public FetchNextSearchPageTask(String query, IGithubApi githubApi, AppDatabase db) {
+    public FetchNextSearchPageTask(String query, GithubService githubService, AppDatabase db) {
         this.query = query;
-        this.githubApi = githubApi;
+        this.githubService = githubService;
         this.db = db;
     }
 
@@ -47,7 +47,7 @@ public class FetchNextSearchPageTask implements Runnable {
         }
 
         try {
-            Response<SearchResponse> response = githubApi
+            Response<SearchResponse> response = githubService
                     .searchRepos(query, nextPage).execute();
             ResponseApi<SearchResponse> apiResponse = new ResponseApi<>(response);
 

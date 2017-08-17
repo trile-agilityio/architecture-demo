@@ -9,7 +9,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +19,7 @@ import com.architecture.component.R;
 import com.architecture.component.binding.FragmentDataBindingComponent;
 import com.architecture.component.databinding.RepoFragmentBinding;
 import com.architecture.component.db.entity.Repo;
+import com.architecture.component.ui.activity.MainActivity;
 import com.architecture.component.ui.adapter.ContributorAdapter;
 import com.architecture.component.util.common.AutoClearedValue;
 import com.architecture.component.util.common.Resource;
@@ -41,12 +44,19 @@ public class RepoFragment extends Fragment implements LifecycleRegistryOwner {
         return lifecycleRegistry;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         RepoFragmentBinding dataBinding = DataBindingUtil
                 .inflate(inflater, R.layout.repo_fragment, container, false);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dataBinding.setRetryCallback(() -> repoViewModel.retry());
         binding = new AutoClearedValue<>(this, dataBinding);
@@ -61,8 +71,9 @@ public class RepoFragment extends Fragment implements LifecycleRegistryOwner {
         // Init RepoViewModel
         repoViewModel = ViewModelProviders.of(this)
                 .get(RepoViewModel.class);
-        Bundle args = getArguments();
 
+        // get Arguments
+        Bundle args = getArguments();
         if (args != null && args.containsKey(REPO_OWNER_KEY)
                 && args.containsKey(REPO_NAME_KEY)) {
 
@@ -87,6 +98,20 @@ public class RepoFragment extends Fragment implements LifecycleRegistryOwner {
 
         // Contributors list
         initContributorList(repoViewModel);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                if (fm.getBackStackEntryCount() > 0) {
+                    fm.popBackStack();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**
