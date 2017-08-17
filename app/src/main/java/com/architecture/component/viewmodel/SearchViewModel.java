@@ -54,8 +54,6 @@ public class SearchViewModel extends ViewModel {
 
     /**
      * Get results.
-     *
-     * @return
      */
     public LiveData<Resource<List<Repo>>> getResults() {
         return results;
@@ -63,8 +61,6 @@ public class SearchViewModel extends ViewModel {
 
     /**
      * Get load more status sate.
-     *
-     * @return
      */
     public LiveData<LoadMoreState> getLoadMoreState() {
         return nextPageHandler.getLoadMoreState();
