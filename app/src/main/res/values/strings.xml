@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GithubRepoDemo</string>
+    <string name="app_name">Demo</string>
 
     <string name="retry">Retry</string>
     <string name="unknown_error">Unknown Error</string>
