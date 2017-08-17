@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId "com.architecture.component"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -51,21 +51,6 @@ android {
 
 dependencies {
     testCompile "junit:junit:$junit_version"
-
-    // androidTestCompile
-    androidTestCompile "com.android.support:appcompat-v7:$support_version"
-    androidTestCompile "com.android.support:recyclerview-v7:$support_version"
-    androidTestCompile "com.android.support:support-v4:$support_version"
-    androidTestCompile "com.android.support:design:$support_version"
-
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$espresso_version", {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.google.code.findbugs', module: 'jsr305'
-    })
-    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$espresso_version", {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.google.code.findbugs', module: 'jsr305'
-    })
 
     // support
     compile "com.android.support:appcompat-v7:$support_version"

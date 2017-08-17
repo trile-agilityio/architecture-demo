@@ -19,7 +19,6 @@ import com.architecture.component.R;
 import com.architecture.component.binding.FragmentDataBindingComponent;
 import com.architecture.component.databinding.RepoFragmentBinding;
 import com.architecture.component.db.entity.Repo;
-import com.architecture.component.ui.activity.MainActivity;
 import com.architecture.component.ui.adapter.ContributorAdapter;
 import com.architecture.component.util.common.AutoClearedValue;
 import com.architecture.component.util.common.Resource;
@@ -56,7 +55,6 @@ public class RepoFragment extends Fragment implements LifecycleRegistryOwner {
                              @Nullable Bundle savedInstanceState) {
         RepoFragmentBinding dataBinding = DataBindingUtil
                 .inflate(inflater, R.layout.repo_fragment, container, false);
-        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dataBinding.setRetryCallback(() -> repoViewModel.retry());
         binding = new AutoClearedValue<>(this, dataBinding);

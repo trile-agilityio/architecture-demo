@@ -14,8 +14,8 @@ buildscript {
     }
 }
 
-ext.arch_version = "1.0.0-alpha4"
-ext.support_version = "25.3.1"
+ext.arch_version = "1.0.0-alpha9"
+ext.support_version = "26.0.0-alpha1"
 ext.dagger_version = "2.11-rc2"
 ext.junit_version = "4.12"
 ext.espresso_version = "2.2.2"
