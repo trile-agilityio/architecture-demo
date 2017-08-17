@@ -57,7 +57,7 @@
                 android:layout_marginStart="10dp"
                 android:hint="@string/search_hint"
                 android:imeOptions="actionSearch"
-                android:inputType="text" />
+                android:inputType="textNoSuggestions" />
         </android.support.design.widget.TextInputLayout>
 
         <ProgressBar
